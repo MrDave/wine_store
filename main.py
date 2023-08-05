@@ -2,6 +2,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
+import pandas
 
 env = Environment(
     loader=FileSystemLoader('.'),
@@ -19,8 +20,12 @@ elif company_years % 10 in range(2, 5) and company_years not in range(12, 15):
     age_text = "года"
 else:
     age_text = "лет"
+    
+wines = pandas.read_excel("wine.xlsx").to_dict(orient="records")
+
 rendered_page = template.render(
-    company_years=f"Уже {company_years} {age_text} с вами"
+    company_years=f"Уже {company_years} {age_text} с вами",
+    wines=wines
 )
 
 with open('index.html', 'w', encoding="utf8") as file:
