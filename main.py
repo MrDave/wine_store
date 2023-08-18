@@ -11,7 +11,7 @@ env = Environment(
 
 template = env.get_template('template.html')
 
-inventory = get_inventory("wine3.xlsx")
+inventory = get_inventory("wine.xlsx")
 
 founding_date = datetime.date(year=1920, month=1, day=1)
 company_age = datetime.date.today() - founding_date
