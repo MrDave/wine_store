@@ -1,8 +1,8 @@
+from dotenv import load_dotenv
+from excel_parser import get_inventory
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
-from excel_parser import get_inventory
-from dotenv import load_dotenv
 import os
 
 
