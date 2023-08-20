@@ -4,33 +4,40 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 from excel_parser import get_inventory
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
 
-template = env.get_template('template.html')
+def main():
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
 
-inventory = get_inventory("wine.xlsx")
+    template = env.get_template('template.html')
 
-founding_date = datetime.date(year=1920, month=1, day=1)
-company_age = datetime.date.today() - founding_date
-company_years = company_age.days//365
+    inventory = get_inventory("wine.xlsx")
 
-if company_years % 10 == 1 and company_years != 11 and company_years % 100 != 11:
-    age_text = "год"
-elif company_years % 10 in range(2, 5) and company_years not in range(12, 15):
-    age_text = "года"
-else:
-    age_text = "лет"
+    founding_date = datetime.date(year=1920, month=1, day=1)
+    company_age = datetime.date.today() - founding_date
+    company_years = company_age.days//365
 
-rendered_page = template.render(
-    company_years=f"Уже {company_years} {age_text} с вами",
-    inventory=inventory
-)
+    if company_years % 10 == 1 and company_years != 11 and company_years % 100 != 11:
+        age_text = "год"
+    elif company_years % 10 in range(2, 5) and company_years not in range(12, 15):
+        age_text = "года"
+    else:
+        age_text = "лет"
 
-with open('index.html', 'w', encoding="utf8") as file:
-    file.write(rendered_page)
+    rendered_page = template.render(
+        company_years=f"Уже {company_years} {age_text} с вами",
+        inventory=inventory
+    )
 
-server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-server.serve_forever()
+    with open('index.html', 'w', encoding="utf8") as file:
+        file.write(rendered_page)
+
+    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
+
+
+if __name__ == '__main__':
+    main()
+    
