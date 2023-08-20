@@ -2,6 +2,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 from excel_parser import get_inventory
+from dotenv import load_dotenv
+import os
 
 
 def get_age_text(years):
@@ -23,7 +25,10 @@ def main():
 
     template = env.get_template('template.html')
 
-    inventory = get_inventory("wine.xlsx")
+    load_dotenv()
+
+    spreadsheet = os.getenv("SPREADSHEET_PATH", default="wine.xlsx")
+    inventory = get_inventory(spreadsheet)
 
     founding_date = datetime.date(year=1920, month=1, day=1)
     company_age = datetime.date.today() - founding_date

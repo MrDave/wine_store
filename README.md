@@ -8,6 +8,11 @@
 ```commandline
 pip install -r requirements.txt
 ```
+По умолчанию, программа будет искать данные в файле `wine.xlsx` в корневом каталоге. Если файл называется или расположен иначе, следует указать до него путь в файле `.env`:
+```
+SPREADSHEET_PATH = path/to/spreadsheet.xlsx
+```
+
 Запустите сайт командой `python main.py` 
 Сайт будет доступен по адресу [http://127.0.0.1:8000](http://127.0.0.1:8000) или [locahost:8000](localhost:8000)
 
