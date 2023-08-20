@@ -1,8 +1,18 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 from excel_parser import get_inventory
+
+
+def get_age_text(years):
+    if int(str(years)[-1:]) == 1 and int(str(years)[-2:]) != 11:
+        age_text = "год"
+    elif int(str(years)[-1:]) in range(2, 5) and (years < 10 or int(str(years)[-2:-1]) != 1):
+        age_text = "года"
+    else:
+        age_text = "лет"
+
+    return age_text
 
 
 def main():
@@ -19,12 +29,7 @@ def main():
     company_age = datetime.date.today() - founding_date
     company_years = company_age.days//365
 
-    if company_years % 10 == 1 and company_years != 11 and company_years % 100 != 11:
-        age_text = "год"
-    elif company_years % 10 in range(2, 5) and company_years not in range(12, 15):
-        age_text = "года"
-    else:
-        age_text = "лет"
+    age_text = get_age_text(company_years)
 
     rendered_page = template.render(
         company_years=f"Уже {company_years} {age_text} с вами",
@@ -40,4 +45,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
